@@ -18,10 +18,68 @@
         </b-row>
       </b-col>
     </b-row>
+    <b-row align-v="center" class="prayers">
+      <b-col class="col-md-auto text-center">
+        <b-row align-h="center">
+          <i class="wi wi-sunrise"></i>
+        </b-row>
+        <b-row align-h="center">
+          <div>Fajr</div>
+        </b-row>
+        <b-row align-h="center">
+          <div>{{ fajr }}</div>
+        </b-row>
+      </b-col>
+      <b-col class="col-md-auto text-center">
+        <b-row align-h="center">
+          <i class="wi wi-day-sunny"></i>
+        </b-row>
+        <b-row align-h="center">
+          <div>Duhr</div>
+        </b-row>
+        <b-row align-h="center">
+          <div>{{ duhr }}</div>
+        </b-row>
+      </b-col>
+      <b-col class="col-md-auto text-center">
+        <b-row align-h="center">
+          <i class="wi wi-day-haze"></i>
+        </b-row>
+        <b-row align-h="center">
+          <div>Asr</div>
+        </b-row>
+        <b-row align-h="center">
+          <div>{{ asr }}</div>
+        </b-row>
+      </b-col>
+      <b-col class="col-md-auto text-center">
+        <b-row align-h="center">
+          <i class="wi wi-sunrise"></i>
+        </b-row>
+        <b-row align-h="center">
+          <div>Maghreb</div>
+        </b-row>
+        <b-row align-h="center">
+          <div>{{ maghreb }}</div>
+        </b-row>
+      </b-col>
+      <b-col class="col-md-auto text-center">
+        <b-row align-h="center">
+          <i class="wi wi-night-clear"></i>
+        </b-row>
+        <b-row align-h="center">
+          <div>Isha</div>
+        </b-row>
+        <b-row align-h="center">
+          <div>{{ isha }}</div>
+        </b-row>
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 
 <script>
+  import AthanService from '@/services/AthanService';
   const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
     "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"
   ];
@@ -37,10 +95,18 @@ export default {
       date: "",
       seconds: "",
       day: "",
+      fajr: "",
+      duhr: "",
+      asr: "",
+      maghreb: "",
+      isha: "",
     }
   },
   created() {
     setInterval(this.getNow, 1000);
+  },
+  mounted() {
+    this.getAthanTimings();
   },
   methods: {
     getNow: function() {
@@ -51,6 +117,14 @@ export default {
       this.clock = `${hours}:${minutes}`;
       this.date = `${monthNames[now.getMonth()]} ${now.getDate()}`;
       this.day = days[now.getDay()];
+    },
+    getAthanTimings: async function() {
+      const timings = await AthanService.getAthanTimings();
+      this.fajr = timings.fajr;
+      this.duhr = timings.duhr;
+      this.asr = timings.asr;
+      this.maghreb = timings.maghreb;
+      this.isha = timings.isha;
     }
   }
 }
@@ -80,6 +154,9 @@ export default {
     margin-left: 1pt;
   }
 
+  .prayers {
+    margin-top: 25pt;
+  }
   .push-down {
     margin-top: 50px;
   }
