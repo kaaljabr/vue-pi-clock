@@ -14,14 +14,12 @@ export default {
 </script>
 
 <style>
-  @import url(http://fonts.googleapis.com/css?family=Ubuntu);
-  @import url(http://fonts.googleapis.com/css?family=Lato:400,700);
+  @import url(https://fonts.googleapis.com/css2?family=MuseoModerno:wght@500);
   @import './assets/css/weather-icons.min.css';
   body {
-    font-family: 'Lato', sans-serif;
+    font-family: 'MuseoModerno', 'sans-serif';
     font-size: 14pt;
     color: var(--white);
     background-color: var(--dark);
-
   }
 </style>

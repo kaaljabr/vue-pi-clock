@@ -7,8 +7,8 @@
         </b-row>
       </b-col>
       <b-col cols="3" class="col-md-auto text-center">
-        <b-row class="seconds">
-          {{ seconds }}
+        <b-row align-v="center" class="weather">
+          <i :class="weatherIcon"></i><i>{{ temp }}</i>
         </b-row>
         <b-row class="date">
           {{ day }}
@@ -80,10 +80,30 @@
 
 <script>
   import AthanService from '@/services/AthanService';
+  import WeatherService from "@/services/WeatherService";
   const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
     "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"
   ];
   const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+  const weatherIcons = {
+    '01d': 'wi wi-day-sunny',
+    '01n': 'wi wi-night-clear',
+    '02d': 'wi wi-day-sunny-overcast',
+    '02n': 'wi wi-night-cloudy',
+    '03d': 'wi wi-day-cloudy',
+    '03n': 'wi wi-night-cloudy',
+    '04d': 'wi wi-cloudy',
+    '04n': 'wi wi-cloudy',
+    '09d': 'wi wi-rain',
+    '09n': 'wi wi-rain',
+    '10d': 'wi wi-day-rain',
+    '10n': 'wi wi-night-rain',
+    '11d': 'wi wi-day-thunderstorm',
+    '11n': 'wi wi-night-thunderstorm',
+    '13d': 'wi wi-day-snow',
+    '13n': 'wi wi-night-snow'
+  }
+
 export default {
   name: 'HelloWorld',
   props: {
@@ -100,20 +120,26 @@ export default {
       asr: "",
       maghreb: "",
       isha: "",
+      temp: "",
+      weatherIcon: "",
     }
   },
   created() {
     setInterval(this.getNow, 1000);
+    setInterval(async () => {
+      await this.getWeather();
+    }, 600000);
   },
   mounted() {
     this.getAthanTimings();
+    this.getWeather();
   },
   methods: {
     getNow: function() {
       const now = new Date();
       const hours = `${now.getHours() < 10 ? '0' : ''}${now.getHours()}`;
       const minutes = `${now.getMinutes() < 10 ? '0' : ''}${now.getMinutes()}`;
-      this.seconds = `${now.getSeconds() < 10 ? '0' : ''}${now.getSeconds()}`;
+      //this.seconds = `${now.getSeconds() < 10 ? '0' : ''}${now.getSeconds()}`;
       this.clock = `${hours}:${minutes}`;
       this.date = `${monthNames[now.getMonth()]} ${now.getDate()}`;
       this.day = days[now.getDay()];
@@ -125,6 +151,12 @@ export default {
       this.asr = timings.asr;
       this.maghreb = timings.maghreb;
       this.isha = timings.isha;
+    },
+    getWeather: async function() {
+      const weather = await WeatherService.getWeather();
+      this.temp = weather.main.temp | 0;
+      this.weatherIcon = weatherIcons[weather.weather[0].icon];
+      console.log(this.weatherIcon);
     }
   }
 }
@@ -138,24 +170,32 @@ export default {
 
   .clock {
     font-size: 100pt;
-    font-weight: 700;
+    font-weight: 100;
     border-right: 3pt solid #ffffff;
   }
 
   .date {
     font-size: 15pt;
-    font-weight: 700;
+    font-weight: 100;
     margin-left: 1pt;
+  }
+
+  .weather {
+    font-size: 20pt;
+    font-weight: 100;
+    margin-left: 1pt;
+    margin-bottom: 10pt;
   }
 
   .seconds {
     font-size: 45pt;
-    font-weight: 500;
+    font-weight: 100;
     margin-left: 1pt;
   }
 
   .prayers {
     margin-top: 25pt;
+    font-size: 15pt;
   }
   .push-down {
     margin-top: 50px;
