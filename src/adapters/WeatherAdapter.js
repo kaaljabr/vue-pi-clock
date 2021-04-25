@@ -1,16 +1,8 @@
-import weatherConnector from '../connectors/WeatherConnector';
-import Config from '../config/Config';
+import apiConnector from '../connectors/ApiConnector';
 
 class WeatherAdapter {
     static async getWeatherNow() {
-        const response = await weatherConnector.get('weather', {
-            params: {
-                appid: Config.WEATHER_API_KEY,
-                lat: Config.LOCATION_LATITUDE,
-                lon: Config.LOCATION_LONGITUDE,
-                units: Config.WEATHER_UNITS
-            },
-        });
+        const response = await apiConnector.get('weather');
         return response.data;
     }
 }

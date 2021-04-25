@@ -4,8 +4,7 @@ import https from 'https';
 import Config from '../config/Config';
 
 const agent = new https.Agent({ rejectUnauthorized: false });
-const WEATHER_BASE_URL = Config.WEATHER_BASE_URL;
-console.log(WEATHER_BASE_URL)
+const WEATHER_BASE_URL = Config.API_BASE_URL;
 
 const instance = axios.create({
     baseURL: WEATHER_BASE_URL,

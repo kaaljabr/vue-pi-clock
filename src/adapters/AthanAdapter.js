@@ -1,8 +1,8 @@
-import athanConnector from '../connectors/AthanConnector';
+import apiConnector from '../connectors/ApiConnector';
 
 class AthanAdapter {
     static async getPrayerTimes() {
-        const response = await athanConnector.get('timings');
+        const response = await apiConnector.get('/athan/timings');
         return response.data;
     }
 }

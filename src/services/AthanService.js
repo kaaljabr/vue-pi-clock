@@ -20,6 +20,8 @@ class AthanService {
             asr: athanTimes.timings[TIMES.ASR],
             maghreb: athanTimes.timings[TIMES.MAGHRIB],
             isha: athanTimes.timings[TIMES.ISHA],
+            hijriDay: athanTimes.date.hijri.day,
+            hijriMonth: athanTimes.date.hijri.month.ar,
         }
     }
 }

@@ -2,7 +2,7 @@
   <b-container>
     <b-row align-v="center">
       <b-col cols="9" class="col-md-auto text-center">
-        <b-row  class="clock">
+        <b-row class="clock">
           {{ clock }}
         </b-row>
       </b-col>
@@ -11,18 +11,21 @@
           <i :class="weatherIcon"></i><i>{{ temp }}</i>
         </b-row>
         <b-row class="date">
-          {{ day }}
+          {{ hijriDay }} {{ hijriMonth }}
         </b-row>
         <b-row class="date">
           {{ date }}
+        </b-row>
+        <b-row class="date text-warning">
+          {{ day }}
         </b-row>
       </b-col>
     </b-row>
     <b-row align-v="center" class="prayers">
       <b-col class="col-md-auto text-center">
-        <b-row align-h="center">
-          <i class="wi wi-sunrise"></i>
-        </b-row>
+<!--        <b-row align-h="center">-->
+<!--          <i class="wi wi-sunrise"></i>-->
+<!--        </b-row>-->
         <b-row align-h="center">
           <div>Fajr</div>
         </b-row>
@@ -31,9 +34,9 @@
         </b-row>
       </b-col>
       <b-col class="col-md-auto text-center">
-        <b-row align-h="center">
-          <i class="wi wi-day-sunny"></i>
-        </b-row>
+<!--        <b-row align-h="center">-->
+<!--          <i class="wi wi-day-sunny"></i>-->
+<!--        </b-row>-->
         <b-row align-h="center">
           <div>Duhr</div>
         </b-row>
@@ -42,9 +45,9 @@
         </b-row>
       </b-col>
       <b-col class="col-md-auto text-center">
-        <b-row align-h="center">
-          <i class="wi wi-day-haze"></i>
-        </b-row>
+<!--        <b-row align-h="center">-->
+<!--          <i class="wi wi-day-haze"></i>-->
+<!--        </b-row>-->
         <b-row align-h="center">
           <div>Asr</div>
         </b-row>
@@ -53,9 +56,9 @@
         </b-row>
       </b-col>
       <b-col class="col-md-auto text-center">
-        <b-row align-h="center">
-          <i class="wi wi-sunrise"></i>
-        </b-row>
+<!--        <b-row align-h="center">-->
+<!--          <i class="wi wi-sunrise"></i>-->
+<!--        </b-row>-->
         <b-row align-h="center">
           <div>Maghreb</div>
         </b-row>
@@ -64,9 +67,9 @@
         </b-row>
       </b-col>
       <b-col class="col-md-auto text-center">
-        <b-row align-h="center">
-          <i class="wi wi-night-clear"></i>
-        </b-row>
+<!--        <b-row align-h="center">-->
+<!--          <i class="wi wi-night-clear"></i>-->
+<!--        </b-row>-->
         <b-row align-h="center">
           <div>Isha</div>
         </b-row>
@@ -105,10 +108,6 @@
   }
 
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  },
   data() {
     return {
       clock: "",
@@ -122,6 +121,8 @@ export default {
       isha: "",
       temp: "",
       weatherIcon: "",
+      hijriMonth: "",
+      hijriDay: "",
     }
   },
   created() {
@@ -151,12 +152,14 @@ export default {
       this.asr = timings.asr;
       this.maghreb = timings.maghreb;
       this.isha = timings.isha;
+      this.hijriDay = timings.hijriDay;
+      this.hijriMonth = timings.hijriMonth;
+
     },
     getWeather: async function() {
       const weather = await WeatherService.getWeather();
       this.temp = weather.main.temp | 0;
       this.weatherIcon = weatherIcons[weather.weather[0].icon];
-      console.log(this.weatherIcon);
     }
   }
 }
@@ -171,13 +174,14 @@ export default {
   .clock {
     font-size: 100pt;
     font-weight: 100;
-    border-right: 3pt solid #ffffff;
+    border-right: 5pt solid #ffffff;
   }
 
   .date {
     font-size: 15pt;
     font-weight: 100;
     margin-left: 1pt;
+    margin-bottom: 10pt;
   }
 
   .weather {
@@ -194,7 +198,7 @@ export default {
   }
 
   .prayers {
-    margin-top: 25pt;
+    margin-top: 10pt;
     font-size: 15pt;
   }
   .push-down {
