@@ -129,7 +129,10 @@ export default {
     setInterval(this.getNow, 1000);
     setInterval(async () => {
       await this.getWeather();
-    }, 600000);
+    }, 60000);
+    setInterval(async () => {
+      await this.getAthanTimings();
+    }, 60000);
   },
   mounted() {
     this.getAthanTimings();
